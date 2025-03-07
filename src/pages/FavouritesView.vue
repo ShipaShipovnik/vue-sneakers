@@ -27,18 +27,19 @@ onMounted(fetchFavs)
     <!-- заглушка -->
     <div v-if="favorites.length === 0" class="flex-1 flex flex-col items-center justify-center mt-1">
         <div class="text-center">
-            <img src="/sad-face-2.png" alt="sad-face" class="mb-5 mx-auto" />
+            <img src="/sad-face-2.png" alt="sad-face" class="sad-face-img mb-5 mx-auto" />
             <h2 class="text-3xl font-bold mb-3">Избранных товаров нет :(</h2>
             <p class="text-stone-500">Вы ничего не добавляли в избранное.</p>
-            <button class="go-back-btn btn mt-10">Вернуться назад</button>
+            <router-link to="/">
+                <button class="go-back-btn btn mt-10">
+                    <img src="/back-arrow.svg" alt="back">
+                    Вернуться назад
+                </button>
+            </router-link>
         </div>
     </div>
 
     <CardList :items="favorites" v-else />
 </template>
 
-<style scoped>
-img {
-    width: 70px;
-}
-</style>
+<style scoped></style>

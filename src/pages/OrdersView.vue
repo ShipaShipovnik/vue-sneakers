@@ -2,7 +2,8 @@
 import Card from '../components/Card.vue';
 import CardList from '../components/CardList.vue';
 
-const hasItems = false
+// убрать потом
+const hasItems = false 
 </script>
 
 <template>
