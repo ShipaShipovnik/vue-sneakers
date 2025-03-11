@@ -135,7 +135,6 @@ onMounted(async () => {
         </div>
     </div>
 
-
     <CardList :items="items" />
 </template>
 

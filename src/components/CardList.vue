@@ -21,14 +21,21 @@ defineProps({
 })
 
 const addToFavs = inject('addToFavs')
-
 </script>
 
 <style scoped>
 .card-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 40px;
+    justify-content: center;
+}
 
+@media (min-width: 1024px) {
+    .card-list {
+        grid-template-columns: repeat(auto-fit, 210px);
+    }
 }
 </style>
