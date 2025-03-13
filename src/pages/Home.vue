@@ -6,7 +6,7 @@ import Card from '@/components/Card.vue';
 import CardList from '@/components/CardList.vue';
 // слайдер
 import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
 
 const items = ref([])
 const searchQuery = ref('')
@@ -125,13 +125,13 @@ onMounted(async () => {
         </template>
     </carousel>
 
-    <div class="head-bar my-10">
+    <div class="w-full head-bar my-10 flex flex-col sm:flex-row items-center sm:place-content-between gap-5">
         <h2 class="text-3xl font-bold">Все кроссовки</h2>
 
-        <div class="search-bar relative">
+        <div class="search-bar w-full sm:w-[50%] relative">
             <img src="/search.svg" alt="search" class="absolute top-3 left-4">
             <input @input="onChangeSearch" type="text"
-                class="border rounded-md py-2 pl-10 pr-4 outline-none focus:border-gray-400">
+                class="w-full border rounded-md py-2 pl-10 pr-4 outline-none focus:border-gray-400">
         </div>
     </div>
 
@@ -139,8 +139,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.head-bar {
-    display: flex;
-    justify-content: space-between;
+.search-bar {
+    justify-items: flex-end
 }
 </style>

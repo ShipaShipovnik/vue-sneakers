@@ -22,7 +22,7 @@ onMounted(fetchFavs)
 
 <template>
     <section>
-        <h2 class="text-3xl font-bold mb-10">Избранное</h2>
+        <h2 class="text-3xl font-bold mb-10 w-full text-center sm:text-left">Избранное</h2>
 
         <!-- заглушка -->
         <div v-if="favorites.length === 0" class="flex-1 flex flex-col items-center justify-center mt-1">

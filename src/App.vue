@@ -1,18 +1,35 @@
 <script setup>
+import { ref, provide } from 'vue';
+
 import Header from './components/Header.vue';
-// import OrderForm from './components/OrderForm.vue';
+import OrderForm from './components/OrderForm.vue';
 
-// const showOrderWin = {
+const isModalOpen = ref(false)
+const selectedItem = ref(null)
 
-// }
+function openModal(item) {
+  selectedItem.value = item
+  isModalOpen.value = true
+}
 
+function closeModal() {
+  selectedItem.value = null
+  isModalOpen.value = false
+}
+
+provide('modal', {
+  isModalOpen,
+  openModal,
+  closeModal,
+  selectedItem,
+});
 </script>
 
 <template>
-  <!-- <OrderForm /> -->
+  <OrderForm v-if="isModalOpen" @close="closeModal" :item=selectedItem />
   <div class="wrapper bg-white rounded-xl shadow-xl">
     <Header />
-    <div class="p-10 flex flex-col box-border h-full">
+    <div class="p-3 sm:p-10 flex flex-col box-border h-full">
       <router-view></router-view>
     </div>
   </div>
@@ -20,6 +37,6 @@ import Header from './components/Header.vue';
 
 <style scoped>
 .wrapper {
-  margin: 50px 85px 0 85px;
+  margin: 50px 5vw 0 5vw;
 }
 </style>

@@ -2,9 +2,9 @@
 </script>
 
 <template>
-    <header class="flex justify-between border-b border-slate-300 px-8 py-8">
+    <header class="flex flex-col items-center sm:flex-row justify-between border-b border-slate-300 p-5 sm:p-8">
         <router-link to="/">
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 mb-6 sm:mb-0">
                 <img src="/logo.png" alt="Logo" class="w-10 " />
                 <div>
                     <h2 class="text-xl font-bold uppercase">VUE КЕДЫ</h2>
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </router-link>
-        <ul class=" flex items-center gap-10">
+        <ul class=" flex flex-col sm:flex-row items-center gap-5 sm:gap-10">
             <li class="header-nav__link flex items-center gap-3 cursor-pointer text-gray-500">
                 <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -50,5 +50,11 @@
 
 .header-nav__link:hover svg path {
     fill: black;
+}
+
+@media(max-width:768px) {
+    .wrapper {
+        margin: 50px 4vw 0 4vw;
+    }
 }
 </style>
