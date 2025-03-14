@@ -1,5 +1,3 @@
-<script>
-</script>
 <template>
     <div class="fixed inset-0 bg-opacity-50 bg-black z-10 flex items-center justify-center">
         <form @submit.prevent="submitForm"
@@ -34,7 +32,6 @@
 import { ref } from 'vue'
 import axios from 'axios';
 
-import Card from './Card.vue';
 
 const props = defineProps({
     item: Object,
@@ -69,6 +66,7 @@ async function submitForm() {
     }
 
 }
+
 
 </script>
 

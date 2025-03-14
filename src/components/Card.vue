@@ -31,7 +31,14 @@
                 <span class="text-slate-400">ЦЕНА:</span>
                 <b>{{ price }} руб.</b>
             </div>
-            <img src="/plus.svg" alt="plus" @click="onClickAdd">
+            <!-- <img src="/plus.svg" alt="plus"> -->
+            <svg class="add-btn" @click="onClickAdd" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="white" stroke="#F2F2F2" />
+                <path
+                    d="M20.6653 15.1312H17.2021V11.6682C17.2021 10.3328 15.1311 10.3328 15.1311 11.6682V15.1312H11.668C10.3329 15.1312 10.3329 17.2022 11.668 17.2022H15.1311V20.6652C15.1311 22.0005 17.2021 22.0005 17.2021 20.6652V17.2022H20.6653C22.0005 17.2022 22.0005 15.1312 20.6653 15.1312Z"
+                    fill="#D3D3D3" />
+            </svg>
         </div>
     </div>
 </template>
@@ -59,11 +66,6 @@ function onClickAdd() {
     }
     openModal(item)
 }
-
-
-
-
-
 </script>
 
 <style>
@@ -78,6 +80,7 @@ function onClickAdd() {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: end;
 }
 
 .fav-btn {
@@ -99,5 +102,19 @@ function onClickAdd() {
 .fav-btn:hover svg rect {
     fill: rgb(254, 240, 240, 50%);
     stroke: rgb(254, 240, 240, 50%);
+}
+
+.add-btn {
+    transition: all 0.5s ease-in-out;
+}
+
+.add-btn:hover path {
+    fill: rgb(1, 1, 1, 50%);
+    stroke: rgb(1, 1, 1, 50%);
+}
+
+.add-btn:hover rect {
+    fill: rgb(137, 240, 156, 50%);
+    stroke: rgb(137, 240, 156, 50%);
 }
 </style>

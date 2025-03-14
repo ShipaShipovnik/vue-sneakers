@@ -8,19 +8,18 @@
     </div>
     <div v-else class="card-list">
         <Card v-for="item in items" :key="item.id" :id="item.id" :imageUrl="item.imageUrl" :title="item.title"
-            :price="item.price" :isFavorite="item.isFavorite" :onClickFavs="() => addToFavs(item)" />
+            :price="item.price" :isFavorite="item.isFavorite" :onClickFavs="() => onClickFavs(item)" />
     </div>
 </template>
 
 <script setup>
 import Card from './Card.vue';
-import { inject } from 'vue';
 
 defineProps({
     items: Array,
+    onClickFavs: Function,
 })
 
-const addToFavs = inject('addToFavs')
 </script>
 
 <style scoped>
