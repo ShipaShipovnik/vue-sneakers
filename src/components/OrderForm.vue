@@ -19,8 +19,8 @@
             </div>
 
             <input type="text" v-model="formData.name" placeholder="*ФИО" required>
-            <input type="text" v-model="formData.address" placeholder="*Телефон" required>
-            <input type="text" v-model="formData.phone" placeholder="*Адрес доставки" required>
+            <input type="tel" v-mask="'+7 (###) ###-##-##'" v-model="formData.phone" placeholder="*Телефон" required>
+            <input type="text" v-model="formData.address" placeholder="*Адрес доставки" required>
             <textarea v-model="formData.comment" placeholder="Комментарий"></textarea>
             <button class="submit-btn btn">Заказать</button>
             <button class="btn" @click="emit('close')">Вернуться в каталог</button>
@@ -29,9 +29,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import axios from 'axios';
+import { mask } from 'vue-the-mask'
 
+const vMask = mask
 
 const props = defineProps({
     item: Object,
@@ -39,6 +41,8 @@ const props = defineProps({
 
 // эмит закрытия формы
 const emit = defineEmits(['close'])
+
+const { showToast } = inject('toast')
 
 // данные формы
 const formData = ref({
@@ -58,11 +62,12 @@ async function submitForm() {
 
     try {
         await axios.post('https://631e7636e485f763.mokky.dev/orders', orderData)
-
         emit('close')
+        console.log('Заказ успешно оформлен!')
+        showToast('Заказ успешно оформлен!', 'success')
     } catch (err) {
-        console.error('Ошибка отправки заказа', err)
-        alert('Ошибка отправки заказа', err)
+        console.error('Ошибка оформления заказа', err)
+        showToast('Ошибка оформления заказа', 'error')
     }
 
 }

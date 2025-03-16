@@ -3,7 +3,28 @@ import { ref, provide } from 'vue';
 
 import Header from './components/Header.vue';
 import OrderForm from './components/OrderForm.vue';
+import Toast from './components/Toast.vue';
 
+
+// тост=========================
+const toastMessage = ref('')
+const toastType = ref('success')
+
+function showToast(message, type = 'success') {
+  toastMessage.value = message
+  toastType.value = type
+
+  // очистка соо
+  setTimeout(() => {
+    toastMessage.value = ''
+  }, 3000)
+}
+
+provide('toast', {
+  showToast,
+})
+
+// модальное окно формы===================
 const isModalOpen = ref(false)
 const selectedItem = ref(null)
 
@@ -26,6 +47,7 @@ provide('modal', {
 </script>
 
 <template>
+  <Toast v-if="toastMessage" :message='toastMessage' :type="toastType" />
   <OrderForm v-if="isModalOpen" @close="closeModal" :item=selectedItem />
   <div class="wrapper bg-white rounded-xl shadow-xl">
     <Header />
