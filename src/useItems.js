@@ -1,16 +1,30 @@
 import axios from 'axios'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 
 const API_URL = 'https://631e7636e485f763.mokky.dev'
 
 export function useItems() {
-  const items = ref([])
-  const favorites = ref([])
-  const searchQuery = ref('')
+  const items = ref([]) //все товары
+  const favorites = ref([]) //лайкнутые товары
+
+  const filters = reactive({
+    sortBy: 'title',
+    searchQuery: ''
+  })
 
   const fetchItems = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/items`)
+      const params = {
+        sortBy: filters.sortBy
+      }
+
+      if (filters.searchQuery) {
+        params.title = `*${filters.searchQuery}*`
+      }
+
+      const { data } = await axios.get(`${API_URL}/items`, {
+        params
+      })
       items.value = data
     } catch (err) {
       console.log('Ошибка получения товаров', err)
@@ -19,7 +33,7 @@ export function useItems() {
 
   const fetchFavorites = async () => {
     try {
-      const { data: favorites } = await axios.get(`${API_URL}/favorites?_relations=items`)
+      const { data: favorites } = await axios.get(`${API_URL}/favorites`)
       console.log('Данные избранного с сервера:', favorites)
 
       items.value = items.value.map((item) => {
@@ -51,7 +65,7 @@ export function useItems() {
         console.log('фаваю...!', item)
 
         const { data } = await axios.post('https://631e7636e485f763.mokky.dev/favorites', {
-          item_id: item.id
+          item: item
         })
 
         item.isFavorite = true
@@ -70,14 +84,15 @@ export function useItems() {
     }
   }
 
-  const searchItems = async () => {
-    try {
-      const { data } = await axios.get(`${API_URL}/items?title=*${searchQuery.value}*`)
-      items.value = data
-    } catch (e) {
-      console.error('Ошибка при поиске товаров:', e)
-    }
-  }
+  // const searchItems = async () => {
+  //   try {
+  //     const { data } = await axios.get(`${API_URL}/items?title=*${searchQuery.value}*`)
+  //     console.log(data)
+  //     items.value = data
+  //   } catch (e) {
+  //     console.error('Ошибка при поиске товаров:', e)
+  //   }
+  // }
 
   const favoriteItems = computed(() => {
     return items.value.filter((item) => item.isFavorite)
@@ -86,11 +101,11 @@ export function useItems() {
   return {
     items,
     favorites,
-    searchQuery,
     fetchItems,
     fetchFavorites,
     toggleFavorite,
-    searchItems,
+    // searchItems,
+    filters,
     favoriteItems
   }
 }

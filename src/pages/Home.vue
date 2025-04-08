@@ -6,13 +6,24 @@ import { onMounted } from 'vue';
 
 import CardList from '@/components/CardList.vue';
 
-const { items, fetchItems, fetchFavorites, toggleFavorite } = useItems()
+const { items, fetchItems, fetchFavorites, toggleFavorite, filters } = useItems()
 
 const slides = [
     '/slider.png',
     '/slider.png',
     '/slider.png',
 ]
+
+let searchTimeout = null // Таймер для debounce
+const onChangeSearchInput = async (event) => {
+    filters.searchQuery = event.target.value
+    console.log('ЗАПРОС: ' + event.target.value)
+
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(() => {
+        fetchItems()
+    }, 300)
+}
 
 // на маунте
 onMounted(async () => {
@@ -36,7 +47,7 @@ onMounted(async () => {
 
         <div class="search-bar w-full sm:w-[50%] relative">
             <img src="/search.svg" alt="search" class="absolute top-3 left-4">
-            <input @input="onChangeSearch" type="text"
+            <input @input="onChangeSearchInput" type="text" placeholder="Введите название товара"
                 class="w-full border rounded-md py-2 pl-10 pr-4 outline-none focus:border-gray-400">
         </div>
     </div>

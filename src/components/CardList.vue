@@ -6,20 +6,25 @@
             <p class="text-stone-500">Подождите новую партию или измените поисковой запрос.</p>
         </div>
     </div>
-    <div v-else class="card-list">
+    <div v-else class="card-list justify-center md:justify-start ">
         <Card v-for="item in items" :key="item.id" :id="item.id" :imageUrl="item.imageUrl" :title="item.title"
             :price="item.price" :isFavorite="item.isFavorite" :onClickFavs="() => onClickFavs(item)" />
     </div>
+    <CardPagination :currentPage="currentPage" :totalPages="totalPages" @page-change="$emit('page-change', $event)" />
 </template>
 
 <script setup>
 import Card from './Card.vue';
+import CardPagination from './CardPagination.vue';
 
 defineProps({
     items: Array,
     onClickFavs: Function,
+    currentPage: Number,
+    totalPages: Number,
 })
 
+defineEmits(['page-change'])
 </script>
 
 <style scoped>
@@ -29,7 +34,8 @@ defineProps({
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 40px;
-    justify-content: center;
+    justify-items: center;
+
 }
 
 @media (min-width: 1024px) {

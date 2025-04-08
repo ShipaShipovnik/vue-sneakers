@@ -71,6 +71,7 @@ function onClickAdd() {
 <style>
 .card {
     width: 100%;
+    max-width: 320px;
     display: flex;
     flex-wrap: wrap;
 }
