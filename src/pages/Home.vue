@@ -6,13 +6,14 @@ import { onMounted } from 'vue';
 
 import CardList from '@/components/CardList.vue';
 
-const { items, fetchItems, fetchFavorites, toggleFavorite, filters } = useItems()
+const { items, fetchItems, fetchFavorites, toggleFavorite, filters, isLoading } = useItems()
 
 const slides = [
     '/slider.png',
     '/slider.png',
     '/slider.png',
 ]
+
 
 let searchTimeout = null // Таймер для debounce
 const onChangeSearchInput = async (event) => {
@@ -33,7 +34,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <carousel>
+    <carousel :autoplay="2000" :transition="1000" :wrapAround="true">
         <slide v-for="(slide, index) in slides" :key="index">
             <img :src="slide" alt="Slide image">
         </slide>
@@ -52,7 +53,7 @@ onMounted(async () => {
         </div>
     </div>
 
-    <CardList :items="items" :onClickFavs="toggleFavorite" />
+    <CardList :items="items" :onClickFavs="toggleFavorite" :isLoading="isLoading" />
 </template>
 
 <style scoped>

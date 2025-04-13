@@ -22,7 +22,12 @@
         </div>
 
 
-        <img :src="imageUrl" alt="Sneaker" class="w-full">
+        <div class="image-container">
+            <img :src="imageUrl" alt="Sneaker" loading="lazy" @load="isLoaded = true"
+                :class="{ 'opacity-0': !isLoaded }">
+            <!-- заглушка -->
+            <div v-if="!isLoaded" class="image-skeleton"></div>
+        </div>
         <p>{{ title }}</p>
 
 
@@ -44,7 +49,7 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 
 const props = defineProps({
     id: Number,
@@ -53,8 +58,9 @@ const props = defineProps({
     title: String,
     price: Number,
     onClickFavs: Function,
+    isLoading: Boolean,
 })
-
+const isLoaded = ref(false);
 const { openModal } = inject('modal')
 
 function onClickAdd() {
@@ -82,6 +88,11 @@ function onClickAdd() {
     width: 100%;
     justify-content: space-between;
     align-items: end;
+}
+
+.image-skeleton {
+    min-height: 100px;
+    background-color: grey;
 }
 
 .fav-btn {

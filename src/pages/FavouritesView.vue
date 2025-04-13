@@ -3,8 +3,9 @@ import { useItems } from '@/useItems';
 import { onMounted } from 'vue';
 
 import CardList from '@/components/CardList.vue';
+import SkeletonCard from '@/components/SkeletonCard.vue';
 
-const { favoriteItems, fetchItems, fetchFavorites, toggleFavorite } = useItems()
+const { favoriteItems, fetchItems, fetchFavorites, toggleFavorite, isLoading } = useItems()
 
 // на маунте
 onMounted(async () => {
@@ -16,8 +17,13 @@ onMounted(async () => {
 <template>
     <section>
         <h2 class="text-3xl font-bold mb-10 w-full text-center sm:text-left">Избранное</h2>
-        <!-- заглушка -->
-        <div v-if="favoriteItems.length === 0" class="flex-1 flex flex-col items-center justify-center mt-1">
+        <!-- загрузка -->
+        <div v-if="isLoading" class="skeleton-list">
+            <SkeletonCard v-for="n in 4" :key="'skeleton-' + n" />
+        </div>
+
+        <!-- нету -->
+        <div v-else-if="favoriteItems.length === 0" class="flex-1 flex flex-col items-center justify-center mt-1">
             <div class="text-center">
                 <img src="/sad-face-2.png" alt="sad-face" class="sad-face-img mb-5 mx-auto" />
                 <h2 class="text-3xl font-bold mb-3">Избранных товаров нет :(</h2>
@@ -31,8 +37,24 @@ onMounted(async () => {
             </div>
         </div>
 
-        <CardList :items="favoriteItems" :onClickFavs="toggleFavorite" v-else />
+        <CardList :items="favoriteItems" :isLoading="isLoading" :onClickFavs="toggleFavorite" v-else />
     </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.skeleton-list {
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    justify-content: center;
+    gap: 40px;
+
+}
+
+@media (min-width: 1024px) {
+    .skeleton-list {
+        grid-template-columns: repeat(auto-fit, 210px);
+    }
+}
+</style>

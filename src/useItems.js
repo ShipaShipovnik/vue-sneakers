@@ -6,6 +6,7 @@ const API_URL = 'https://631e7636e485f763.mokky.dev'
 export function useItems() {
   const items = ref([]) //все товары
   const favorites = ref([]) //лайкнутые товары
+  const isLoading = ref(false)
 
   const filters = reactive({
     sortBy: 'title',
@@ -14,6 +15,10 @@ export function useItems() {
 
   const fetchItems = async () => {
     try {
+      isLoading.value = true
+      console.log('ЗАГРУЗКА.......')
+
+      // параметры
       const params = {
         sortBy: filters.sortBy
       }
@@ -22,12 +27,17 @@ export function useItems() {
         params.title = `*${filters.searchQuery}*`
       }
 
+      // запрос
       const { data } = await axios.get(`${API_URL}/items`, {
         params
       })
+
       items.value = data
     } catch (err) {
       console.log('Ошибка получения товаров', err)
+    } finally {
+      isLoading.value = false
+      console.log('ЗАГРУЗКА КОНЧИЛАСЬ')
     }
   }
 
@@ -106,6 +116,7 @@ export function useItems() {
     toggleFavorite,
     // searchItems,
     filters,
-    favoriteItems
+    favoriteItems,
+    isLoading
   }
 }
